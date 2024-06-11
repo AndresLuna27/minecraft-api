@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobs de Minecraft</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url('fondo.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: #350dc4;
+        }
+        .mob-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .mob {
+            background-color: rgba(8, 172, 16, 0.8);
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+            width: 300px;
+            margin: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            color: #000;
+        }
+        .mob img {
+            width: 100%;
+            height: auto;
+        }
+        .mob h2 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .mob p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        select {
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Características de Mobs de Minecraft</h1>
+    <h2>Hostiles</h2>
+    <select id="hostile-mob-select">
+        <option value="">Selecciona un mob hostil</option>
+        <option value="piglin">Piglin</option>
+        <option value="creeper">Creeper</option>
+        <option value="skeleton">Esqueleto</option>
+        <option value="zombie">Zombie</option>
+        <option value="ghast">Ghast</option>
+    </select>
+    <div class="mob-container" id="hostile-mob-container">
+       
+    </div>
+    <h2>Pacíficos</h2>
+    <select id="passive-mob-select">
+        <option value="">Selecciona un mob pacífico</option>
+        <option value="turtle">Tortuga</option>
+        <option value="pig">Cerdo</option>
+        <option value="cat">Gato</option>
+        <option value="sheep">Oveja</option>
+        <option value="wolf">Lobo</option>
+    </select>
+    <div class="mob-container" id="passive-mob-container">
+     
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const mobs = {
+                piglin: {
+                    name: "Piglin",
+                    image: "PIGGLIN.JPG",
+                    health: "16 (8 corazones)",
+                    attack: "5 (2.5 corazones)",
+                    description: "Los Piglins son criaturas neutrales que se encuentran en el Nether."
+                },
+                turtle: {
+                    name: "Tortuga",
+                    image: "trotuman.jpg",
+                    attack: "0",
+                    description: "Las Tortugas son criaturas pasivas que se encuentran en las playas y océanos."
+                },
+                pig: {
+                    name: "Cerdo",
+                    image: "cerdo.jpg",
+                    health: "10 (5 corazones)",
+                    attack: "0",
+                    description: "Los Cerdos son criaturas pasivas que se pueden encontrar en la mayoría de los biomas terrestres."
+                },
+                creeper: {
+                    name: "Creeper",
+                    image: "creeper.jpg",
+                    health: "20 (10 corazones)",
+                    attack: "Explosión",
+                    description: "Los Creepers son criaturas hostiles que explotan cuando se acercan a los jugadores."
+                },
+                cat: {
+                    name: "Gato",
+                    image: "gatos.jpg",
+                    attack: "0",
+                    description: "Los Gatos son criaturas pasivas que se pueden encontrar en las aldeas y las casas de los brujas."
+                },
+                skeleton: {
+                    name: "Esqueleto",
+                    image: "esqueleto.jpg",
+                    health: "20 (10 corazones)",
+                    attack: "4 (2 corazones)",
+                    description: "Los Esqueletos son criaturas hostiles que atacan a distancia usando arcos."
+                },
+                zombie: {
+                    name: "Zombie",
+                    image: "zombie.jpg",
+                    health: "20 (10 corazones)",
+                    attack: "3 (1.5 corazones)",
+                    description: "Los Zombies son criaturas hostiles que atacan a los jugadores y aldeanos."
+                },
+                ghast: {
+                    name: "Ghast",
+                    image: "ghast.jpg",
+                    health: "10 (5 corazones)",
+                    attack: "Explosión de fuego",
+                    description: "Los Ghasts son criaturas hostiles del Nether que disparan bolas de fuego a los jugadores."
+                },
+                sheep: {
+                    name: "Oveja",
+                    image: "OVEJA.jpg",
+                    health: "8 (4 corazones)",
+                    attack: "0",
+                    description: "Las Ovejas son criaturas pasivas que se pueden encontrar en la mayoría de los biomas terrestres."
+                },
+                wolf: {
+                    name: "Lobo",
+                    image: "lobo.jpg",
+                    health: "8 (4 corazones)",
+                    attack: "0",
+                    description: "Los Lobos son criaturas pasivas que se pueden encontrar en los biomas de taiga y bosque. Pueden ser domesticados."
+                }
+            };
+
+
+            const hostileMobSelect = document.getElementById("hostile-mob-select");
+            const passiveMobSelect = document.getElementById("passive-mob-select");
+            const hostileMobContainer = document.getElementById("hostile-mob-container");
+            const passiveMobContainer = document.getElementById("passive-mob-container");
+
+
+            hostileMobSelect.addEventListener("change", function() {
+                const selectedMob = hostileMobSelect.value;
+                hostileMobContainer.innerHTML = "";
+
+
+                if (selectedMob) {
+                    const mob = mobs[selectedMob];
+                    const mobElement = document.createElement("div");
+                    mobElement.classList.add("mob");
+
+
+                    mobElement.innerHTML = `
+                        <img src="${mob.image}" alt="${mob.name}">
+                        <h2>${mob.name}</h2>
+                        <p><strong>Salud:</strong> ${mob.health}</p>
+                        <p><strong>Daño:</strong> ${mob.attack}</p>
+                        <p><strong>Descripción:</strong> ${mob.description}</p>
+                    `;
+
+
+                    hostileMobContainer.appendChild(mobElement);
+                }
+            });
+
+
+            passiveMobSelect.addEventListener("change", function() {
+                const selectedMob = passiveMobSelect.value;
+                passiveMobContainer.innerHTML = "";
+                if (selectedMob) {
+                    const mob = mobs[selectedMob];
+                    const mobElement = document.createElement("div");
+                    mobElement.classList.add("mob");
+
+
+                    mobElement.innerHTML = `
+                        <img src="${mob.image}" alt="${mob.name}">
+                        <h2>${mob.name}</h2>
+                        <p><strong>Salud:</strong> ${mob.health}</p>
+                        <p><strong>Daño:</strong> ${mob.attack}</p>
+                        <p><strong>Descripción:</strong> ${mob.description}</p>
+                    `;
+
+
+                    passiveMobContainer.appendChild(mobElement);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
